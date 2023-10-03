@@ -14,7 +14,25 @@
 }
 
 .calculator-content{
-    display: flex;
+    
+}
+
+.display{
+    margin: 15px 20px;
+    padding: 15px 30px;
+    text-align: right;
+    background: #54545489;
+    border: 3px solid black;
+}
+
+.previous-operation-display{
+    font-size: 25px;
+    min-height: 40px;
+}
+
+.current-operation-display{
+    font-size: 40px;
+    min-height: 70px;   
 }
 
 .buttons-container{
@@ -24,13 +42,14 @@
 
 .buttons-container > div{
     background: #585858;
-    width: 120px;
-    height: 70px;
-    margin: 2px;
+    max-height: 70px;
+    padding: 22px;
+    margin: 3px;
+    border: 2px solid #191919;
     font-weight: 700;
 }
 
 .equal{
-    grid-column-end: span 2;
+    grid-column: span 2;
 }
 

@@ -1,40 +1,83 @@
 const calculatorContent = document.querySelector(".calculator-content");
 const buttonsContainer = document.querySelector(".buttons-container");
+const numbers = document.querySelectorAll(".numbers");
+const operators = document.querySelectorAll(".operators");
+const equal = document.querySelector(".equal");
 
-const numbers = [];
-const operators = ['+', '-', '*', '/', '%'];
 
-for (let i = 9; i >= 0; i++){
+let previousNumber = [];
+let currentNumber = 6;
+let operator = '/';
+operators.forEach(operator => operator.addEventListener("click", () => {
+    console.log(operator.textContent);
+    operator = operator.textContent;
 
-    if (i == 9){
-        let allclearbtn = document.createElement("div");
-        allclearbtn.textContent = ("AC");
-        buttonsContainer.appendChild(allclearbtn);
-        allclearbtn.addEventListener("click", assignValue);
+}));
 
-        let clearbtn = document.createElement("div");
-        clearbtn.textContent = ("C");
-        buttonsContainer.appendChild(clearbtn);
-        clearbtn.addEventListener("click", assignValue);
+numbers.forEach(number => number.addEventListener("click", () => {
+        console.log(number.textContent);
+        currentNumber += number.textContent;
+        console.table(typeof(Math.floor(currentNumber)));
+}));
 
-        let operatorModule = document.createElement("div");
-        operatorModule.textContent = ("%");
-        buttonsContainer.appendChild(operatorModule);
-        operatorModule.addEventListener("click", assignValue);  
+//        console.log(operate(previousNumber, currentNumber, operator));
 
-        let operator = document.createElement("div");
-        operator.textContent = ("/");
-        buttonsContainer.appendChild(operator);
-        operator.addEventListener("click", assignValue);  
+
+
+function operate(previousNumber, currentNumber, operator){
+    switch(operator){
+        case '+':
+            answer = addition(previousNumber, currentNumber);
+            break;
+        case '-':
+            answer = subtraction(previousNumber, currentNumber);
+            break;
+        case '×':
+            answer = multiplication(previousNumber, currentNumber);
+            break;
+        case '÷':
+            answer = division(previousNumber, currentNumber);
+            break;
+        case '%':
+            answer = modulo(previousNumber, currentNumber);
+            break;
     }
-
-    let number = document.createElement("div");
-    number.textContent = (i);
-    numbers[i] = number;
-    buttonsContainer.appendChild(number);
-    number.addEventListener("click", assignValue);
+    return answer;
 }
 
-function assignValue(){
-    console.log("kay");
+// addition
+function addition(previousNumber, currentNumber){
+  let answer = previousNumber + currentNumber;
+  return answer;
 }
+
+// subtraction
+function subtraction(previousNumber, currentNumber){
+  let answer = previousNumber - currentNumber;
+  return answer;
+}
+
+// multiplication
+function multiplication(previousNumber, currentNumber){
+  let answer = previousNumber * currentNumber;
+  return answer;
+}
+
+// division
+function division(previousNumber, currentNumber){
+  let answer = previousNumber / currentNumber;
+  return answer;
+}
+
+//  modulo
+function modulo(previousNumber, currentNumber){
+    let answer = previousNumber % currentNumber;
+    return answer;
+  }
+
+      
+console.log(addition(86, 24));
+console.log(subtraction(86, 24));
+console.log(multiplication(86, 24));
+console.log(division(86, 24));
+console.log(modulo(86, 24));
