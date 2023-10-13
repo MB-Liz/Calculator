@@ -9,45 +9,45 @@ const clearButton = document.querySelector(".clear");
 const decimalButton = document.querySelector(".decimal");
 
 
-let previousNumber, currentNumber = '', operator, newOperator;
+let previousNumber = '', currentNumber = '', operator = '', newOperator = '', answer = 0;
 
 // Event Listeners
 equalButton.addEventListener("click", () =>{
   populateDisplay(previousNumber);
-  console.log(operator);
-  let answer = operate(Math.floor(previousNumber), Math.floor(currentNumber));
-  console.log(answer);
+  answer = operate(parseFloat(previousNumber, 10), parseFloat(currentNumber, 10));
   populatePreviousDisplay();
   populateDisplay(answer);
-  AllClearFunction()
+  AllClearFunction();
+  previousNumber = answer;
 })
 
 decimalButton.addEventListener("click", () =>{
   if (currentNumber.includes(decimalButton.textContent)){
-    console.log('no decimal');
-  }else{
-    currentNumber += decimalButton.textContent;
+    console.log("number can't have 2 decimals");
+  }else if(currentNumber == ''){
+    currentNumber += "0";
+    currentNumber += ".";
+    populateDisplay(currentNumber);
+    }else{
+    currentNumber += ".";
     populateDisplay(currentNumber);
   }
 })
 
-
 operatorsButton.forEach(operatorButton => operatorButton.addEventListener("click", () => {
-    console.log(operatorButton.textContent);
     newOperator = operatorButton.textContent;
-    if (previousNumber == null){
-      previousNumber = currentNumber;  //doe
-      currentNumber = null;
+    if (previousNumber == '' || (previousNumber == answer && currentNumber != '')){
+      previousNumber = currentNumber; 
+      currentNumber = '';
     }
-    if (currentNumber != null){
-      let answer = operate(Math.floor(previousNumber), Math.floor(currentNumber));
-      console.log(answer);
+    if (currentNumber != ''){
+      answer = operate(parseFloat(previousNumber, 10), parseFloat(currentNumber, 10));
       previousNumber = answer;
-      currentNumber = null;
+      currentNumber = '';
       operator = operatorButton.textContent;
       populatePreviousDisplay();
       populateDisplay(answer);
-    }else if(operator != null){
+    }else if(operator != ''){
       operator = operatorButton.textContent;
       populatePreviousDisplay();
     }else{
@@ -58,23 +58,16 @@ operatorsButton.forEach(operatorButton => operatorButton.addEventListener("click
 }));
 
 numbers.forEach(number => number.addEventListener("click", () => {
-  console.log(currentNumber + " before");
-        if (currentNumber == null){
-          currentNumber = number.textContent;
-        }else{
           currentNumber += number.textContent;
-        }
         populateDisplay(currentNumber);
 }));
 
 clearButton.addEventListener("click", () => {
-  console.log("clra");
   currentNumber = clearFunction();
 });
 
 allClearButton.addEventListener("click", () => {
   AllClearFunction();
-  console.log(currentNumber + "AC");
   populatePreviousDisplay();
   populateDisplay("0");
 });
@@ -87,17 +80,17 @@ function populateDisplay(value){
 }
 
 function populatePreviousDisplay(){
-  if (currentNumber == null){
+  if (currentNumber == ''){
     previousOperationDisplay.textContent = `${previousNumber} ${operator}`;
   }else{
     previousOperationDisplay.textContent = `${previousNumber} ${operator} ${currentNumber} =`;
   }
 }
 
+
 // OPERATIONS
 function operate(previousNumber, currentNumber){
-    let answer = 0;
-    console.log(typeof(currentNumber));
+    answer = 0;
     switch(operator){
         case '+':
             answer = previousNumber + currentNumber;
@@ -115,26 +108,22 @@ function operate(previousNumber, currentNumber){
             answer = previousNumber % currentNumber;
             break;
     }
+    answer = parseFloat(answer.toFixed(3));
+    console.log(`${previousNumber} ${operator} ${currentNumber} = = ${answer} == rounded = ${parseFloat(answer.toFixed(3))}`);
     return answer;
 }
 
-// Clear  // improve
 
-function AllClearFunction(){ // error with variables
-  previousNumber = "";
-  if (previousNumber == ""){
-    console.log("null is true");
-  }else{
-    console.log("null is false");
-  }
-  currentNumber;
-  operator;
+// Clearing functions
+function AllClearFunction(){ 
+  previousNumber ='';
+  currentNumber ='';
+  operator = '';
 }
 
 function clearFunction(){
-  console.log(currentNumber);
   currentNumber = currentNumber.slice(0, -1);
-  console.log(currentNumber);
   populateDisplay(currentNumber);
   return currentNumber;
   }
+
